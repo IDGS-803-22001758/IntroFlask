@@ -59,7 +59,40 @@ def form1():
         <form><label>Nombre:</label>
         <input type="text" name="nombre" placeolder="Nombre">
         </form>    
-    '''         
+    '''     
+
+@app.route('/cine')
+def cine():
+    return render_template("cinepolis.html", total=None)
+
+@app.route('/procesa', methods=["POST"])
+def procesa():
+    if request.method == "POST":
+        try:
+            nombre = request.form.get("nombre")
+            cantCompra = int(request.form.get("cantCompra", 0))
+            cantBoletos = int(request.form.get("cantBoletos", 0))
+            tarjetaCineco = request.form.get("tarjetaCineco")
+            precio_unitario = 12
+
+            max_boletos = cantCompra * 7
+            if cantBoletos > max_boletos:
+                return render_template("cinepolis.html", total="Error: Excede la cantidad permitida")
+
+            total = cantBoletos * precio_unitario
+
+            if cantBoletos > 5:
+                total *= 0.85 
+            elif 3 <= cantBoletos <= 5:
+                total *= 0.90  
+
+            if tarjetaCineco == "si":
+                total *= 0.90  
+
+            return render_template("cinepolis.html", total=round(total, 2))  
+
+        except ValueError:
+            return render_template("cinepolis.html", total="Error: Datos inválidos")       
 
 if __name__ == '__main__':
     app.run(debug=True,port=3000)    

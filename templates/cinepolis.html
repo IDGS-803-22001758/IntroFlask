@@ -1,0 +1,163 @@
+{% extends "layout.html" %}
+
+{% block container %}
+<style>
+    body {
+        background-image: url("{{ url_for('static', filename='img/fondoCine.jpg') }}");
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        color: white;
+    }
+
+    h1 {
+        text-align: center;
+        color: black;
+        display: inline-block;
+        font-weight: bold;
+        padding: 5px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 20px;
+    }
+
+    .container-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 50px;
+        gap: 20px;
+    }
+
+    .section {
+        border: 2px solid white;
+        padding: 20px;
+        width: 40%;
+        text-align: left;
+        
+    }
+
+    .section legend {
+        font-weight: bold;
+        font-style: italic;
+        padding: 0 10px;
+        color: white;
+        
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+        text-shadow: 1px  0px 0px black,
+               0px  1px 0px black,
+              -1px  0px 0px black,
+               0px -1px 0px black;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 5px;
+        margin-top: 5px;
+    }
+
+    .radio-group {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .acciones {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .acciones .section {
+        width: 30%;
+        text-align: center;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-group input {
+        width: 45%;
+    }
+
+    @media (max-width: 768px) {
+        .container-flex {
+            flex-direction: column;
+            align-items: center;
+        }
+        .section {
+            width: 80%;
+        }
+        .acciones .section {
+            width: 80%;
+        }
+    }
+</style>
+
+<h1>Cinépolis</h1><br><br>
+<form action="/procesa" method="post">
+<div class="container-flex">
+    <fieldset class="section">
+        <legend>Entradas</legend>
+        
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="cantCompra">Cantidad de compradores:</label>
+            <input type="number" id="cantCompra" name="cantCompra" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Tarjeta Cineco:</label>
+            <div class="radio-group">
+                <label for="si">Sí</label>
+                <input type="radio" id="si" name="tarjetaCineco" value="si">
+                <label for="no">No</label>
+                <input type="radio" id="no" name="tarjetaCineco" value="no">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="cantBoletos">Cantidad de boletos:</label>
+            <input type="number" id="cantBoletos" name="cantBoletos" class="form-control">
+        </div>
+    </fieldset>
+
+    
+    <fieldset class="section">
+        <legend>Salidas</legend>
+        <div class="form-group">
+            <label for="valorPagar">Valor a Pagar:</label> 
+            <input type="text" id="valorPagar" name="valorPagar" value="{{ total if total else '' }}" readonly><br>
+        </div>
+    </fieldset>
+</div>
+
+
+<div class="acciones">
+    <fieldset class="section">
+        <legend>Acciones</legend>
+        <div class="btn-group">
+            <input type="submit" value="Procesar" class="btn btn-primary">
+        </div>
+    </fieldset>
+</div>
+</form>
+
+{% endblock %}
